@@ -1,0 +1,207 @@
+% Mathias Rav, fredag i rusdagene d. 21. august 2015
+% Compile med latex -- IKKE pdflatex:
+% latexmk -pdfps pile.tex
+%
+% Men hvordan fungerer det her pilemagi?, spørger du.
+%
+%   \datit{\venstre}
+% bliver til...
+%   \matkant{datalogi eller IT}{\venstre}
+% som bliver til...
+%   \pil
+%   {\scalebox{5.60}[16]{Matematisk kantine}}
+%   {\scalebox{2}{Denne vej hvis du skal læse datalogi eller IT}}
+%   {\venstre}
+% som bliver til...
+%   \skilt
+%   {\includegraphics[angle=\venstre,origin=c]{pil.ps}}
+%   {\scalebox{5.60}[16]{Matematisk kantine}}
+%   {\scalebox{2}{Denne vej hvis du skal læse datalogi eller IT}}
+
+
+\documentclass[oneside,a4paper]{memoir}
+
+% \usepackage{scalebox}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage[dvips]{graphicx}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{0pt}
+\setlength{\footskip}{0pt}
+% A4: 21 cm x 29.7 cm
+% 29.7 cm = 2 * 0.85 cm + 28 cm
+% 28 cm = 2 * 4 cm + 20 cm
+\setulmarginsandblock{0.85cm}{*}{1}
+\setlrmarginsandblock{1cm}{*}{1}
+\checkandfixthelayout
+\pagestyle{empty}
+
+% \skilt{illustration}{navn}{tekst}
+\newcommand{\skilt}[3]{
+  \parbox[c][6cm][c]{\textwidth}{%
+    \centering%
+    #2%
+  }\par
+  \parbox[c][16cm][c]{\textwidth}{%
+    \centering%
+    #1%
+  }\par
+  \parbox[c][6cm][c]{\textwidth}{%
+    \centering%
+    #3%
+  }\par
+  \clearpage
+}%
+
+% \pil{navn}{tekst}{\<retning>}
+\newcommand{\pil}[3]{%
+  \skilt{%
+    \includegraphics[angle=#3,origin=c]{pil.ps}%
+  }{#1}{#2}%
+}%
+
+% \<retning> er en af følgende:
+\newcommand{\op}{90}
+\newcommand{\hojre}{0}
+\newcommand{\venstre}{180}
+\newcommand{\ned}{270}
+
+% \buret{\<retning>}
+\newcommand{\buret}{%
+  \pil%
+  {\scalebox{16}{Buret}}%
+  {\scalebox{6}{Her får du hjælp}}%
+}
+
+% \stakbogladen{\<retning>}
+\newcommand{\stakbogladen}{%
+  \pil%
+  {\scalebox{8.5}[16]{Stakbogladen}}%
+  {\scalebox{4}{Her køber du bøger}}%
+}
+
+% \helpdesk{\<retning>}
+\newcommand{\helpdesk}{%
+  \pil%
+  {\scalebox{7.5}[16]{AU IT helpdesk}}%
+  {\scalebox{4}{Her får du hjælp til nettet}}%
+}
+
+% \helpdesksal{\<retning>}
+\newcommand{\helpdesksal}{%
+  \pil%
+  {\scalebox{7.5}[16]{AU IT helpdesk}}%
+  {\scalebox{4}{Gå op på tredje sal}}%
+}
+
+% \matkant{studie}{\<retning>}
+\newcommand{\matkant}[1]{%
+  \pil%
+  {\scalebox{5.60}[16]{Matematisk kantine}}%
+  {\scalebox{2}{Denne vej hvis du skal læse #1}}%
+}
+
+% \fyskant{studie}{\<retning>}
+\newcommand{\fyskant}[1]{%
+  \pil%
+  {\scalebox{8}[16]{Fysisk kantine}}%
+  {\scalebox{2}{Denne vej hvis du skal læse #1}}%
+}
+
+% \nanofoyer{studie}{\<retning>}
+\newcommand{\nanofoyer}[1]{%
+  \pil%
+  {\scalebox{6.4}[16]{iNANO Foyeren}}%
+  {\scalebox{2}{Denne vej hvis du skal læse #1}}%
+}
+
+% \matlabtwoline{studie}{\<retning>}
+\newcommand{\matlabtwoline}[1]{%
+  \pil%
+  {\scalebox{5.60}[16]{Matematisk Lab}}%
+  {\scalebox{2}{Denne vej hvis du skal læse}\\[14pt]%
+   \scalebox{2}{#1}}%
+}
+
+% \datit{\<retning>}
+\newcommand{\datit}{\matkant{datalogi eller IT}}
+% \fysik{\<retning>}
+\newcommand{\fysik}{\fyskant{fysik}}
+% \nano{\<retning>}
+\newcommand{\nano}{\nanofoyer{nanoscience}}
+% \matmok{\<retning>}
+\newcommand{\matmok}{\matlabtwoline{matematik eller matematik-økonomi}}
+
+\begin{document}
+\sffamily
+\bfseries
+\centering
+
+% op, ned, højre, venstre
+% matkantdatit 2 4 3 3
+% matlabmatmok 5 2 2 4
+% fyskantfys 5 1 1 3
+% nanonano 0 0 1 0
+% buret 4 2 4 2
+
+\datit{\op}
+\datit{\op}
+\datit{\ned}
+\datit{\ned}
+\datit{\ned}
+\datit{\ned}
+\datit{\hojre}
+\datit{\hojre}
+\datit{\hojre}
+\datit{\venstre}
+\datit{\venstre}
+\datit{\venstre}
+\matmok{\op}
+\matmok{\op}
+\matmok{\op}
+\matmok{\op}
+\matmok{\op}
+\matmok{\ned}
+\matmok{\ned}
+\matmok{\hojre}
+\matmok{\hojre}
+\matmok{\venstre}
+\matmok{\venstre}
+\matmok{\venstre}
+\matmok{\venstre}
+\fysik{\op}
+\fysik{\op}
+\fysik{\op}
+\fysik{\op}
+\fysik{\op}
+\fysik{\ned}
+\fysik{\hojre}
+\fysik{\venstre}
+\fysik{\venstre}
+\fysik{\venstre}
+\nano{\hojre}
+\buret{\op}
+\buret{\op}
+\buret{\op}
+\buret{\op}
+\buret{\ned}
+\buret{\ned}
+\buret{\hojre}
+\buret{\hojre}
+\buret{\hojre}
+\buret{\hojre}
+\buret{\venstre}
+\buret{\venstre}
+
+% \helpdesk{\venstre}
+% \helpdesk{\venstre}
+% \helpdesksal{\op}
+% \stakbogladen{\ned}
+% \stakbogladen{\venstre}
+% \stakbogladen{\hojre}
+% \stakbogladen{\op}
+
+
+\end{document}
