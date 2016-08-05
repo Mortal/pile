@@ -1,17 +1,13 @@
-all: pil.ps pile.pdf
+all: pil.pdf pile.pdf
 .PHONY: pile.pdf all clean fullclean
 
 clean:
 	latexmk -C
-	$(RM) pil.log pil.ps
+	$(RM) pil.log
 
-pil.ps: pil.mp
-	mpost -tex=latex pil.mp
-	mv pil.1 $@
-
-pil.pdf: pil.ps
-	gs -o $@ -sDEVICE=pdfwrite -s
-	ps2pdf $<
+pil.pdf: pil.mp
+	mptopdf $<
+	mv pil-1.pdf $@
 
 pile.pdf:
-	latexmk -pdfps pile.tex
+	latexmk -pdf pile.tex

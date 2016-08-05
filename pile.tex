@@ -1,6 +1,4 @@
 % Mathias Rav, fredag i rusdagene d. 21. august 2015
-% Compile med latex -- IKKE pdflatex:
-% latexmk -pdfps pile.tex
 %
 % Men hvordan fungerer det her pilemagi?, spørger du.
 %
@@ -26,7 +24,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
-\usepackage[dvips]{graphicx}
+\usepackage[pdftex]{graphicx}
 \setlength{\headheight}{0pt}
 \setlength{\headsep}{0pt}
 \setlength{\footskip}{0pt}
@@ -58,7 +56,7 @@
 % \pil{navn}{tekst}{\<retning>}
 \newcommand{\pil}[3]{%
   \skilt{%
-    \includegraphics[angle=#3,origin=c]{pil.ps}%
+    \includegraphics[angle=#3,origin=c]{pil.pdf}%
   }{#1}{#2}%
 }%
 
