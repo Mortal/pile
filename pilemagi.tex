@@ -1,18 +1,26 @@
 % Mathias Rav, fredag i rusdagene d. 21. august 2015
+% Udvidet 5. august 2016
 %
 % Men hvordan fungerer det her pilemagi?, spørger du.
 %
-%   \datit{\venstre}
+%   \pil{\datit}{Matematisk kantine}{\scalebox{2}{Hej}}
 % bliver til...
-%   \pil
-%   {\scalebox{5.60}[16]{Matematisk kantine}}
-%   {\scalebox{2}{Denne vej hvis du skal læse datalogi eller IT}}
-%   {\venstre}
-% som bliver til...
+%   \newcommand{\datit}[1]{
+%     \skilt
+%     {\includegraphics[angle=#1,origin=c]{pil.pdf}}
+%     {\scalebox{5.60}[16]{Matematisk kantine}}
+%     {\scalebox{2}{Hej}}}
+%
+% Og så kan man skrive f.eks. \datit{\venstre} som bliver til
 %   \skilt
 %   {\includegraphics[angle=\venstre,origin=c]{pil.pdf}}
 %   {\scalebox{5.60}[16]{Matematisk kantine}}
-%   {\scalebox{2}{Denne vej hvis du skal læse datalogi eller IT}}
+%   {\scalebox{2}{Hej}}}
+%
+% Hvis man skal bruge flere ens pile, skriver man f.eks.
+%   \Repeat{4}{\datit{\ned}}
+% som bliver til
+%   \datit{\ned}\datit{\ned}\datit{\ned}\datit{\ned}
 
 
 \documentclass[oneside,a4paper]{memoir}
@@ -59,11 +67,13 @@
   \fi
 }
 
-% \pil{navn}{tekst}{\<retning>}
-\newcommand{\pil}[3]{%
-  \skilt{%
-    \includegraphics[angle=#3,origin=c]{pil.pdf}%
-  }{\scaleandresize{#1}}{#2}%
+% \pil{\command}{navn}{tekst}{\<retning>}
+\def\pil#1#2#3{%
+  \newcommand{#1}[1]{%
+    \skilt{%
+      \includegraphics[angle=##1,origin=c]{pil.pdf}%
+    }{\scaleandresize{#2}}{#3}%
+  }%
 }%
 
 \newcommand{\op}{90}
