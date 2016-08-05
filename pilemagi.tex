@@ -3,24 +3,23 @@
 %
 % Men hvordan fungerer det her pilemagi?, spørger du.
 %
-%   \pil{\datit}{Matematisk kantine}{\scalebox{2}{Hej}}
+%   \pil{\datit}
+%   {Matematisk kantine}
+%   {\scalebox{2}{Hej}}
 % bliver til...
-%   \newcommand{\datit}[1]{
+%   \newcommand{\datit}[2]{
+%     \Repeat{#2}{
+%       \skilt
+%       {\includegraphics[angle=#1,origin=c]{pil.pdf}}
+%       {\scalebox{5.60}[16]{Matematisk kantine}}
+%       {\scalebox{2}{Hej}}}}
+%
+% Og så kan man skrive f.eks. \datit{\venstre}{2} som bliver til
+%   \Repeat{2}{
 %     \skilt
-%     {\includegraphics[angle=#1,origin=c]{pil.pdf}}
+%     {\includegraphics[angle=\venstre,origin=c]{pil.pdf}}
 %     {\scalebox{5.60}[16]{Matematisk kantine}}
 %     {\scalebox{2}{Hej}}}
-%
-% Og så kan man skrive f.eks. \datit{\venstre} som bliver til
-%   \skilt
-%   {\includegraphics[angle=\venstre,origin=c]{pil.pdf}}
-%   {\scalebox{5.60}[16]{Matematisk kantine}}
-%   {\scalebox{2}{Hej}}}
-%
-% Hvis man skal bruge flere ens pile, skriver man f.eks.
-%   \Repeat{4}{\datit{\ned}}
-% som bliver til
-%   \datit{\ned}\datit{\ned}\datit{\ned}\datit{\ned}
 
 
 \documentclass[oneside,a4paper]{memoir}
@@ -39,6 +38,25 @@
 \setlrmarginsandblock{1cm}{*}{1}
 \checkandfixthelayout
 \pagestyle{empty}
+
+% From http://tex.stackexchange.com/a/16194/76220
+\makeatletter
+\newcommand{\Repeat}[1]{%
+    \expandafter\@Repeat\expandafter{\the\numexpr #1\relax}%
+}
+
+\def\@Repeat#1{%
+    \ifnum#1>0
+        \expandafter\@@Repeat\expandafter{\the\numexpr #1-1\expandafter\relax\expandafter}%
+    \else
+        \expandafter\@gobble
+    \fi
+}
+\def\@@Repeat#1#2{%
+    \@Repeat{#1}{#2}#2%
+}
+\makeatother
+% End from tex.se
 
 % \skilt{illustration}{navn}{tekst}
 \newcommand{\skilt}[3]{
@@ -67,12 +85,15 @@
   \fi
 }
 
-% \pil{\command}{navn}{tekst}{\<retning>}
+% \pil{\command}{navn}{tekst}
+% \command{\retning}{n}
 \def\pil#1#2#3{%
-  \newcommand{#1}[1]{%
-    \skilt{%
-      \includegraphics[angle=##1,origin=c]{pil.pdf}%
-    }{\scaleandresize{#2}}{#3}%
+  \newcommand{#1}[2]{%
+    \Repeat{##2}{%
+      \skilt{%
+        \includegraphics[angle=##1,origin=c]{pil.pdf}%
+      }{\scaleandresize{#2}}{#3}%
+    }%
   }%
 }%
 
@@ -80,21 +101,3 @@
 \newcommand{\hojre}{0}
 \newcommand{\venstre}{180}
 \newcommand{\ned}{270}
-
-% From http://tex.stackexchange.com/a/16194/76220
-\makeatletter
-\newcommand{\Repeat}[1]{%
-    \expandafter\@Repeat\expandafter{\the\numexpr #1\relax}%
-}
-
-\def\@Repeat#1{%
-    \ifnum#1>0
-        \expandafter\@@Repeat\expandafter{\the\numexpr #1-1\expandafter\relax\expandafter}%
-    \else
-        \expandafter\@gobble
-    \fi
-}
-\def\@@Repeat#1#2{%
-    \@Repeat{#1}{#2}#2%
-}
-\makeatother
