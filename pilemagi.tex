@@ -1,0 +1,90 @@
+% Mathias Rav, fredag i rusdagene d. 21. august 2015
+%
+% Men hvordan fungerer det her pilemagi?, spørger du.
+%
+%   \datit{\venstre}
+% bliver til...
+%   \pil
+%   {\scalebox{5.60}[16]{Matematisk kantine}}
+%   {\scalebox{2}{Denne vej hvis du skal læse datalogi eller IT}}
+%   {\venstre}
+% som bliver til...
+%   \skilt
+%   {\includegraphics[angle=\venstre,origin=c]{pil.pdf}}
+%   {\scalebox{5.60}[16]{Matematisk kantine}}
+%   {\scalebox{2}{Denne vej hvis du skal læse datalogi eller IT}}
+
+
+\documentclass[oneside,a4paper]{memoir}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage[pdftex]{graphicx}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{0pt}
+\setlength{\footskip}{0pt}
+% A4: 21 cm x 29.7 cm
+% 29.7 cm = 2 * 0.85 cm + 28 cm
+% 28 cm = 2 * 4 cm + 20 cm
+\setulmarginsandblock{0.85cm}{*}{1}
+\setlrmarginsandblock{1cm}{*}{1}
+\checkandfixthelayout
+\pagestyle{empty}
+
+% \skilt{illustration}{navn}{tekst}
+\newcommand{\skilt}[3]{
+  \parbox[c][6cm][c]{\textwidth}{%
+    \centering%
+    #2%
+  }\par
+  \parbox[c][16cm][c]{\textwidth}{%
+    \centering%
+    #1%
+  }\par
+  \parbox[c][6cm][c]{\textwidth}{%
+    \centering%
+    #3%
+  }\par
+  \clearpage
+}%
+
+\newsavebox{\scaleandresizetmp}
+\newcommand{\scaleandresize}[1]{%
+  \sbox{\scaleandresizetmp}{#1}%
+  \ifdim 16\wd\scaleandresizetmp < \dimexpr \textwidth - 2cm \relax
+    \scalebox{16}{#1}%
+  \else
+    \resizebox{\dimexpr \textwidth - 2cm \relax}{\dimexpr 16\ht\scaleandresizetmp}{#1}%
+  \fi
+}
+
+% \pil{navn}{tekst}{\<retning>}
+\newcommand{\pil}[3]{%
+  \skilt{%
+    \includegraphics[angle=#3,origin=c]{pil.pdf}%
+  }{\scaleandresize{#1}}{#2}%
+}%
+
+\newcommand{\op}{90}
+\newcommand{\hojre}{0}
+\newcommand{\venstre}{180}
+\newcommand{\ned}{270}
+
+% From http://tex.stackexchange.com/a/16194/76220
+\makeatletter
+\newcommand{\Repeat}[1]{%
+    \expandafter\@Repeat\expandafter{\the\numexpr #1\relax}%
+}
+
+\def\@Repeat#1{%
+    \ifnum#1>0
+        \expandafter\@@Repeat\expandafter{\the\numexpr #1-1\expandafter\relax\expandafter}%
+    \else
+        \expandafter\@gobble
+    \fi
+}
+\def\@@Repeat#1#2{%
+    \@Repeat{#1}{#2}#2%
+}
+\makeatother
