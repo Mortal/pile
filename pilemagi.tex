@@ -62,15 +62,15 @@
 \newcommand{\skilt}[3]{
   \parbox[c][.2\stockheight][c]{\textwidth}{%
     \centering%
-    #2%
+    \scaleandresize{#1}%
   }\par\vfill
   \parbox[c][.5\stockheight][c]{\textwidth}{%
     \centering%
-    #1%
+    \includepil{#3}%
   }\par\vfill
   \parbox[c][.2\stockheight][c]{\textwidth}{%
     \centering%
-    #3%
+    #2%
   }\par
   \clearpage
 }%
@@ -85,14 +85,14 @@
   \fi
 }
 
+\newcommand{\includepil}[1]{\includegraphics[angle=#1,origin=c]{pil.pdf}}
+
 % \pil{\command}{navn}{tekst}
 % \command{\retning}{n}
 \def\pil#1#2#3{%
   \newcommand{#1}[2]{%
     \Repeat{##2}{%
-      \skilt{%
-        \includegraphics[angle=##1,origin=c]{pil.pdf}%
-      }{\scaleandresize{#2}}{#3}%
+      \skilt{#2}{#3}{##1}%
     }%
   }%
 }%
