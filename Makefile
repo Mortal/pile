@@ -1,4 +1,4 @@
-all: pil.pdf pile.pdf
+all: pile.pdf
 .PHONY: pile.pdf all clean fullclean
 
 clean:
